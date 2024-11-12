@@ -62,4 +62,67 @@ class productController extends Controller
 
         return response()->json($product, 200);
     }
+
+    public function destroy($id)
+    {
+        $product = Product::find($id);
+        if (!$product) {
+            $data = [
+                'message' => 'Product not found'
+            ];
+
+            return response()->json($data, 404);
+        }
+
+        $product->delete();
+
+        return response()->json(['message' => 'Product deleted'], 200);
+    }
+
+    public function update($id, Request $request)
+    {
+        $product = Product::find($id);
+
+        if (!$product) {
+
+            return response()->json(['message' => 'Product not found'], 404);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'max:255',
+            'description' => 'max:255',
+            'image_url' => 'url:http,https',
+            'price' => 'decimal:2'
+        ]);
+
+        if ($validator->fails()) {
+            $data = [
+                'message' => 'Error in validation data',
+                'errors' => $validator->errors(),
+                'status' => 400
+            ];
+            return response()->json($data, 400);
+        }
+
+        if ($request->has('name')) {
+            $product->name = $request->name;
+        }
+        if ($request->has('description')) {
+            $product->description = $request->description;
+        }
+        if ($request->has('image_url')) {
+            $product->image_url = $request->image_url;
+        }
+        if ($request->has('price')) {
+            $product->price = $request->price;
+        }
+
+        $product->save();
+
+        $data = [
+            'message' => 'Product updated'
+        ];
+
+        return response()->json($data, 200);
+    }
 }

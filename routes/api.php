@@ -10,10 +10,6 @@ Route::get("/products/{id}", [productController::class, 'show']);
 
 Route::post("/products", [productController::class, 'store']);
 
-Route::patch("/products/{id}", function () {
-    return "Actualizando producto";
-});
+Route::patch("/products/{id}", [productController::class, 'update']);
 
-Route::delete("/products/{id}", function () {
-    return "Deleting product ";
-});
+Route::delete("/products/{id}", [productController::class, 'destroy']);
