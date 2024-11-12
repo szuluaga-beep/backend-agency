@@ -10,9 +10,7 @@ Route::get("/products/{id}", function () {
     return "Return one product";
 });
 
-Route::post("/products", function () {
-    return "Creando producto";
-});
+Route::post("/products", [productController::class, 'store']);
 
 Route::patch("/products/{id}", function () {
     return "Actualizando producto";
