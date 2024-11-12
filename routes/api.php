@@ -6,9 +6,7 @@ use App\Http\Controllers\Api\productController;
 
 Route::get("/products", [productController::class, 'getAllProducts']);
 
-Route::get("/products/{id}", function () {
-    return "Return one product";
-});
+Route::get("/products/{id}", [productController::class, 'show']);
 
 Route::post("/products", [productController::class, 'store']);
 
